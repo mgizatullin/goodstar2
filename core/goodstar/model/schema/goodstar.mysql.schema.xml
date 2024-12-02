@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="goodstar" baseClass="xPDOObject" platform="mysql" defaultEngine="InnoDB" phpdoc-package="goodstar"
+       version="1.1">
+
+    <object class="goodStarItem" table="goodstar_items" extends="xPDOSimpleObject">
+        <field key="thread" dbtype="int" precision="10" phptype="int" null="false" default=""/>
+        <field key="vote" dbtype="int" precision="10" phptype="int" null="true" default="0"/>
+        <field key="group" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="user" dbtype="varchar" precision="255" phptype="string" null="true" default="0"/>
+
+        <index alias="thread" name="thread" primary="false" unique="false" type="BTREE">
+            <column key="thread" length="" collation="A" null="false"/>
+        </index>
+        <index alias="group" name="group" primary="false" unique="false" type="BTREE">
+            <column key="group" length="" collation="A" null="false"/>
+        </index>
+    </object>
+
+    <object class="goodStarVoteCount" table="goodstar_vote_count" extends="xPDOSimpleObject">
+        <field key="thread" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="count" dbtype="decimal" precision="10,7" phptype="float" null="false" default=""/>
+        <field key="countaverage" dbtype="int" precision="10" phptype="int" null="false" default=""/>
+
+        <index alias="thread" name="thread" primary="false" unique="false" type="BTREE">
+            <column key="thread" length="" collation="A" null="false"/>
+        </index>
+
+        <composite alias="goodStarVoteCount" class="goodStarVote" local="thread" foreign="thread"/>
+        <aggregate alias="modResource" class="modResource" local="thread" foreign="id" cardinality="one" owner="foreign" />
+    </object>
+
+</model>
